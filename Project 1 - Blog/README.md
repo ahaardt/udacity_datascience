@@ -1,6 +1,6 @@
 # Write a Data Science Blog Post
 
-Blog Post: https://www.blogger.com/blog/post/edit/3835643869595990717/2788433774923437791
+Blog Post: https://haardtdatascience.blogspot.com/2021/12/how-do-i-optimise-my-airbnb-host-rating.html
 
 ## Motivation
 The project has been done as part of the Udacity Data Science Degree and looks into a variety of factors driving host ratings. It assumes that hosts want to achieve higher ratings due to the associated impact on being able to charge higher prices and have a higher booking utilisation.
