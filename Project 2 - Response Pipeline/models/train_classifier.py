@@ -1,4 +1,21 @@
 import sys
+# import libraries
+import pandas as pd
+from sqlalchemy import create_engine
+from nltk.tokenize import word_tokenize
+import re
+from nltk.stem import WordNetLemmatizer
+import nltk
+from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
+from sklearn.multioutput import MultiOutputClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report
+from sklearn.model_selection import train_test_split, GridSearchCV
+import numpy as np
+import pickle
+nltk.download(['punkt', 'wordnet'])
 
 
 def load_data(database_filepath):
