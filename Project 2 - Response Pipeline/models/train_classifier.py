@@ -59,9 +59,6 @@ def build_model():
         ('clf', MultiOutputClassifier(RandomForestClassifier()))
     ])
 
-    #Split data into train and test
-    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, random_state = 1)
-
     np.random.seed(13)
     #Fit pipeline
     pipeline.fit(X_train, Y_train)
