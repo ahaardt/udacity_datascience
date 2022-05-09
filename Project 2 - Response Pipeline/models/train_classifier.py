@@ -19,30 +19,31 @@ nltk.download(['punkt', 'wordnet'])
 
 
 def load_data(database_filepath):
-    engine = create_engine('sqlite:///'+ database_filepath)
-    df = pd.read_sql_table('response','sqlite:///'+ database_filepath)
+    engine = create_engine('sqlite:///'+database_filepath)
+    df = pd.read_sql_table('DisasterResponse', engine)
     X = df['message']
     Y = df[df.columns[4:]]
     category_names = Y.columns.tolist()
     return X, Y, category_names
+    load_data('response.db')
 
 
 
 def tokenize(text):
-    
+
     # get rid of special characters
     text = re.sub(r"[^a-zA-Z0-9]", " ", text)
 
     # tokenize text
     tokens = word_tokenize(text)
-    
+
     # initiate lemmatizer
     lemmatizer = WordNetLemmatizer()
 
     # iterate through each token
     clean_tokens = []
     for tok in tokens:
-        
+
         # lemmatize, normalize case, and remove leading/trailing white space
         clean_tok = lemmatizer.lemmatize(tok).lower().strip()
         clean_tokens.append(clean_tok)
@@ -51,7 +52,7 @@ def tokenize(text):
 
 
 def build_model():
-    # Set up the pipelines 
+    # Set up the pipelines
     pipeline = Pipeline([
         ('vect', CountVectorizer(tokenizer = tokenize)),
         ('tfidf', TfidfTransformer()),
@@ -75,7 +76,7 @@ def evaluate_model(model, X_test, Y_test, category_names):
             print()
             print(col)
             print(classification_report(Y_test.iloc[:,i], y_pred[:,i]))
-        
+
     create_classification_report(Y_test,y_pred)
 
 
@@ -92,13 +93,13 @@ def main():
         print('Loading data...\n    DATABASE: {}'.format(database_filepath))
         X, Y, category_names = load_data(database_filepath)
         X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
-        
+
         print('Building model...')
         model = build_model()
-        
+
         print('Training model...')
         model.fit(X_train, Y_train)
-        
+
         print('Evaluating model...')
         evaluate_model(model, X_test, Y_test, category_names)
 
