@@ -58,10 +58,15 @@ def build_model():
         ('tfidf', TfidfTransformer()),
         ('clf', MultiOutputClassifier(RandomForestClassifier()))
     ])
+    
+   parameters = {
+    'tfidf__norm':['l2','l1'],
+    'clf__estimator__min_samples_split':[2,3],
+    }
 
-    np.random.seed(13)
-    #Fit pipeline
-    pipeline.fit(X_train, Y_train)
+    cv = GridSearchCV(pipeline, param_grid=parameters)
+    
+    return cv 
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
