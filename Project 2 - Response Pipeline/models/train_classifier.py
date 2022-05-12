@@ -59,18 +59,19 @@ def build_model():
         ('clf', MultiOutputClassifier(RandomForestClassifier()))
     ])
     
-   parameters = {
-    'tfidf__norm':['l2','l1'],
-    'clf__estimator__min_samples_split':[2,3],
-    }
+    parameters ={
+        'tfidf__norm':['l2','l1'],
+        'clf__estimator__min_samples_split':[2,3],
+        }
 
     cv = GridSearchCV(pipeline, param_grid=parameters)
     
     return cv 
 
 
-def evaluate_model(model, X_test, Y_test, category_names):
-    y_pred = pipeline.predict(X_test)
+def evaluate_model(cv, X_test, Y_test, category_names):
+    y_pred = cv.predict(X_test)
+    
 
     #Function to report scores
     def create_classification_report (Y_test, y_pred):
@@ -86,7 +87,7 @@ def save_model(model, model_filepath):
     #Export Pickle File
     file_name = 'model.pkl'
     with open (file_name, 'wb') as file:
-        pickle.dump(cv,file)
+        pickle.dump(model,file)
 
 
 def main():
