@@ -15,6 +15,11 @@ from sqlalchemy import create_engine
 app = Flask(__name__)
 
 def tokenize(text):
+    '''
+    Splits a string into a sequence of tokens for later processing. Tokens then are lemmatized (grouping together of inflected forms) 
+    Input: String
+    Returns: tokenised and lemmatised string
+    '''
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
 
@@ -25,13 +30,13 @@ def tokenize(text):
 
     return clean_tokens
 
-# load data
+# load data from SQL database and create DF
 engine = create_engine('sqlite:///../data/DisasterResponse.db')
 df = pd.read_sql_table('DisasterResponse', engine)
 
 
 
-# load model
+# load model from previously created pkl file for later use
 model = joblib.load("../model.pkl")
 
 
