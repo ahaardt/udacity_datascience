@@ -85,6 +85,11 @@ def build_model():
 
 
 def evaluate_model(cv, X_test, Y_test, category_names):
+    '''
+    Evaluate model by returning classification report
+    Input: Grid search Model, X_test, Y_test, catgegory_names
+    Returns: printed classification report
+    '''
     y_pred = cv.predict(X_test)
     
 
@@ -99,6 +104,11 @@ def evaluate_model(cv, X_test, Y_test, category_names):
 
 
 def save_model(model, model_filepath):
+     '''
+    Saves the model as pkl
+    Input: model and path to save model
+    Returns: saved pkl file in file path
+    '''
     #Export Pickle File
     file_name = 'model.pkl'
     with open (file_name, 'wb') as file:
