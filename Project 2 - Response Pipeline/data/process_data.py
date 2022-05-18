@@ -6,6 +6,14 @@ from sqlalchemy import create_engine
 
 
 def load_data(messages_filepath, categories_filepath):
+    '''
+    Function combines two separate datasets for messages and categories and returns dataframe.
+    input:
+        messages_filepath: Filepath messages
+        categories_filepath: Filepath categories
+    returns:
+        df: Merge of both datasets
+    '''
     categories = pd.read_csv(categories_filepath)
     messages = pd.read_csv(messages_filepath)
     # merge datasets
@@ -47,12 +55,22 @@ def load_data(messages_filepath, categories_filepath):
 
 
 def clean_data(df):
+    '''
+    Takes dataframe and drops duplicates
+    Input: dataframe
+    Returns: Dataframe without duplicates
+    '''
     # drop duplicates
     df.drop_duplicates(inplace = True)
     return df
 
 
 def save_data(df, database_filename):
+    '''
+    Saves dataframe in filepath in SQLITE
+    Input: dataframe, name for file
+    Returns: saves DF to to SQL DB
+    '''
     engine = create_engine('sqlite:///'+database_filename)
     df.to_sql('DisasterResponse', engine,if_exists = 'replace', index=False)
 
