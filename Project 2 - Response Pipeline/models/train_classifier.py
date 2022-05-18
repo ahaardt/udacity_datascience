@@ -19,6 +19,11 @@ nltk.download(['punkt', 'wordnet'])
 
 
 def load_data(database_filepath):
+    '''
+    Loads data from provided sql databse path. Reads source CSV as DF and defines X, Y and category names.
+    Input: SQLite DB filepath
+    Returns: X and Y with associated category names
+    '''
     engine = create_engine('sqlite:///'+database_filepath)
     df = pd.read_sql_table('DisasterResponse', engine)
     X = df['message']
@@ -30,6 +35,11 @@ def load_data(database_filepath):
 
 
 def tokenize(text):
+    '''
+    Splits a string into a sequence of tokens for later processing. Tokens then are lemmatized (grouping together of inflected forms) 
+    Input: String
+    Returns: tokenised and lemmatised string
+    '''
 
     # get rid of special characters
     text = re.sub(r"[^a-zA-Z0-9]", " ", text)
@@ -52,6 +62,11 @@ def tokenize(text):
 
 
 def build_model():
+    '''
+    Creates pipeline, defines parameters and tunes with Gridsearch
+    Input: none
+    Returns: Model
+    '''
     # Set up the pipelines
     pipeline = Pipeline([
         ('vect', CountVectorizer(tokenizer = tokenize)),
@@ -70,6 +85,11 @@ def build_model():
 
 
 def evaluate_model(cv, X_test, Y_test, category_names):
+    '''
+    Evaluate model by returning classification report
+    Input: Grid search Model, X_test, Y_test, catgegory_names
+    Returns: printed classification report
+    '''
     y_pred = cv.predict(X_test)
     
 
@@ -84,6 +104,11 @@ def evaluate_model(cv, X_test, Y_test, category_names):
 
 
 def save_model(model, model_filepath):
+    '''
+    Saves the model as pkl
+    Input: model and path to save model
+    Returns: saved pkl file in file path
+    '''
     #Export Pickle File
     file_name = 'model.pkl'
     with open (file_name, 'wb') as file:
