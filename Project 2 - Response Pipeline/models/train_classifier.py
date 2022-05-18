@@ -19,6 +19,11 @@ nltk.download(['punkt', 'wordnet'])
 
 
 def load_data(database_filepath):
+    '''
+    Loads data from provided sql databse path. Reads source CSV as DF and defines X, Y and category names.
+    Input: SQLite DB filepath
+    Returns: X and Y with associated category names
+    '''
     engine = create_engine('sqlite:///'+database_filepath)
     df = pd.read_sql_table('DisasterResponse', engine)
     X = df['message']
