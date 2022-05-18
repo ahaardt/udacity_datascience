@@ -1,6 +1,7 @@
 import json
 import plotly
 import pandas as pd
+import numpy as np
 
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
@@ -46,9 +47,17 @@ model = joblib.load("../model.pkl")
 def index():
     
     # extract data needed for visuals
-    # TODO: Below is an example - modify to extract data for your own visuals
+    #genre counts
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
+
+    #most frequent categories
+    categories = df.iloc[:,4:]
+    #Count categories
+    categories_counts= categories.mean().sort_values(ascending=False)[1:11]
+    # Create list of top categories 
+    categories_names = list(categories_counts.index)
+    
     
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
@@ -70,7 +79,29 @@ def index():
                     'title': "Genre"
                 }
             }
-        }
+        },
+
+               {
+            'data': [
+                Bar(
+                    x=categories_names,
+                    y=categories_counts
+                )
+            ],
+
+            'layout': {
+                'title': 'Most frequent categories',
+                'yaxis': {
+                    'title': "Frequency"
+                },
+                'xaxis': {
+                    'title': "Category"
+                }
+            }
+        },
+
+
+
     ]
     
     # encode plotly graphs in JSON
