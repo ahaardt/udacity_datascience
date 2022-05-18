@@ -18,20 +18,31 @@ def load_data(messages_filepath, categories_filepath):
     messages = pd.read_csv(messages_filepath)
     # merge datasets
     df = pd.merge(categories,messages, how='inner', on=['id'], left_index=True)
+    
+    
     # create a dataframe of the 36 individual category columns
-    categories = df['categories'].str.split(pat=';',expand=True)
+    #categories = df['categories'].str.split(pat=';',expand=True)
+    categories = df.categories.str.split(';', expand = True)
+    
     # select the first row of the categories dataframe
     row = categories[0:1]
+    
     # use this row to extract a list of new column names for categories.
     # one way is to apply a lambda function that takes everything
     # up to the second to last character of each string with slicing
     category_colnames = row.apply(lambda x: x.str[:-2]).values.tolist()
+    
+    
     # rename the columns of `categories`
     categories.columns = category_colnames
+    
+     #adapt related to binary
+    categories.related.loc[categories.related == 'related-2'] = 'related-1'
 
     for column in categories:
         # set each value to be the last character of the string
-        categories[column] = categories[column].str[-1]
+        #categories[column] = categories[column].str[-1]
+        categories[column] = categories[column].astype(str).str[-1]
 
         # convert column from string to numeric
         categories[column] = categories[column].astype(int)
