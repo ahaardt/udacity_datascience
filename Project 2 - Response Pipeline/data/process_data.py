@@ -5,7 +5,15 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 
-def load_data(messages_filepath, categories_filepath):
+def load_data(messages_filepath, categories_filepath): 
+    '''
+    Function combines two separate datasets for messages and categories and returns dataframe.
+    input:
+        messages_filepath: Filepath messages
+        categories_filepath: Filepath categories
+    returns:
+        df: Merge of both datasets
+    '''
     categories = pd.read_csv(categories_filepath)
     messages = pd.read_csv(messages_filepath)
     # merge datasets
