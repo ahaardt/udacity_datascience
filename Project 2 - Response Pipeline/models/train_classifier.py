@@ -35,6 +35,11 @@ def load_data(database_filepath):
 
 
 def tokenize(text):
+     '''
+    Splits a string into a sequence of tokens for later processing. Tokens then are lemmatized (grouping together of inflected forms) 
+    Input: String
+    Returns: tokenised and lemmatised string
+    '''
 
     # get rid of special characters
     text = re.sub(r"[^a-zA-Z0-9]", " ", text)
@@ -57,6 +62,11 @@ def tokenize(text):
 
 
 def build_model():
+     '''
+    Creates pipeline, defines parameters and tunes with Gridsearch
+    Input: none
+    Returns: Model
+    '''
     # Set up the pipelines
     pipeline = Pipeline([
         ('vect', CountVectorizer(tokenizer = tokenize)),
